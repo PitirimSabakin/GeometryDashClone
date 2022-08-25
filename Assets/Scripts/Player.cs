@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
     private bool isGrounded = true;
+    private Vector3 startPosition;
 
     public delegate void Death();
     public Death DeathHandler { get; set; }
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         DeathHandler = SpawnPlayerAfterDeath;
+        startPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -46,6 +48,8 @@ public class Player : MonoBehaviour
     private void SpawnPlayerAfterDeath()
     {
         gameManager.ReturnPositionMap();
+        rb.velocity = Vector2.zero;
+        transform.position = startPosition;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
