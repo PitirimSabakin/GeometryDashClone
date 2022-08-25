@@ -21,7 +21,7 @@ public class RightCollider : MonoBehaviour
     //Delegate. A collision is reported
     void OnTriggerEnter2D(Collider2D collision)
     {
-        playerScript.DeathHandler();
+        if(collision.tag != "Obstacle") playerScript.DeathHandler();
     }
 
 

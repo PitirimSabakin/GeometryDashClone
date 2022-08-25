@@ -5,8 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private BoxCollider2D collider2D;
     private bool isGrounded = true;
     private Vector3 startPosition;
+    private float elapsedTimeTrigger = 0f;
 
     public delegate void Death();
     public Death DeathHandler { get; set; }
@@ -35,6 +37,8 @@ public class Player : MonoBehaviour
                 Jump();
             }
         }
+
+        elapsedTimeTrigger += Time.deltaTime;
     }
 
     //cube jump when player touch display
@@ -54,9 +58,10 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Obstacle")
+        if(collision.tag == "Obstacle" && elapsedTimeTrigger >=0.1)
         {
-            SpawnPlayerAfterDeath();          
+            DeathHandler();
+            elapsedTimeTrigger = 0;
         }
     }
 
