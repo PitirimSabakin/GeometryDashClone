@@ -7,6 +7,9 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded = true;
 
+    public delegate void Death();
+    public Death DeathHandler { get; set; }
+
     private GameManager gameManager;
     [SerializeField] private GameObject playerPrefab;                    
     [SerializeField] private float jumpForce = 5;
@@ -16,6 +19,8 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        DeathHandler = SpawnPlayerAfterDeath;
     }
 
     // Update is called once per frame
@@ -53,7 +58,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.name == "floor")
+        if(collision.tag == "ground")
         {
             isGrounded = true;
         }
@@ -61,7 +66,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.name == "floor")
+        if (collision.tag == "ground")
         {
             isGrounded = false;
         }
