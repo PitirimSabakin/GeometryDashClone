@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     private Vector3 startPosition;
     private float elapsedTimeTrigger = 0f;
 
+    [HideInInspector] public bool isBoosted = false;
+
     public delegate void Death();
     public Death DeathHandler { get; set; }
 
@@ -32,7 +34,7 @@ public class Player : MonoBehaviour
     {
         foreach(Touch touch in Input.touches)
         {
-            if (isGrounded)
+            if (isGrounded || isBoosted)
             {
                 Jump(jumpForce);
             }
@@ -47,6 +49,7 @@ public class Player : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.AddForce(Vector2.up * jumpForce);
         isGrounded = false;
+        isBoosted = false;
     }
 
     //when cube collision with obstacle, he teleport to the spawn point

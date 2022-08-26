@@ -21,7 +21,12 @@ public class RightCollider : MonoBehaviour
     //Delegate. A collision is reported
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag != "boost") playerScript.DeathHandler();
+        if (collision.tag != "boost" && collision.tag != "boostInAir")
+        {
+            Time.timeScale = 0;
+           // playerScript.DeathHandler();
+            Debug.Log(collision.name);
+        }
     }
 
 
