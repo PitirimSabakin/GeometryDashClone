@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private BoxCollider2D collider2D;
     private bool isGrounded = true;
     private Vector3 startPosition;
     private float elapsedTimeTrigger = 0f;
@@ -16,6 +15,7 @@ public class Player : MonoBehaviour
     private GameManager gameManager;
     [SerializeField] private GameObject playerPrefab;                    
     [SerializeField] private float jumpForce = 5;
+    [SerializeField] private float jumpForceBoost = 7;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
         {
             if (isGrounded)
             {
-                Jump();
+                Jump(jumpForce);
             }
         }
 
@@ -42,8 +42,9 @@ public class Player : MonoBehaviour
     }
 
     //cube jump when player touch display
-    private void Jump()
+    private void Jump(float jumpForce)
     {
+        rb.velocity = Vector3.zero;
         rb.AddForce(Vector2.up * jumpForce);
         isGrounded = false;
     }
@@ -61,6 +62,11 @@ public class Player : MonoBehaviour
         if(collision.tag == "Obstacle" && elapsedTimeTrigger >=0.1)
         {
             DeathHandler();
+            elapsedTimeTrigger = 0;
+        }
+        if(collision.tag == "boost" && elapsedTimeTrigger >= 0.1)
+        {
+            Jump(jumpForceBoost);
             elapsedTimeTrigger = 0;
         }
     }
