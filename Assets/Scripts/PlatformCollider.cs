@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RightCollider : MonoBehaviour
+public class PlatformCollider : MonoBehaviour
 {
     private Player playerScript;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerScript = transform.parent.GetComponent<Player>();
+        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -21,10 +21,9 @@ public class RightCollider : MonoBehaviour
     //Delegate. A collision is reported
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag != "boost" && collision.tag != "boostInAir")
-        {            
-            playerScript.DeathHandler();
-            Debug.Log(collision.name);
+        if (collision.tag == "Player")
+        {
+           playerScript.DeathHandler();
         }
     }
 
